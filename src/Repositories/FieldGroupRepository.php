@@ -158,13 +158,17 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
      */
     public function createFieldGroup(array $data)
     {
-        $result = $this->editWithValidate(0, array_merge($data, [
+        $result = $this->editWithValidate(0, [
+            'order' => $data['order'],
+            'rules' => $data['rules'],
+            'title' => $data['title'],
+            'status' => $data['status'],
             'created_by' => $data['updated_by'],
             'updated_by' => $data['updated_by'],
-        ]), true, false);
+        ], true, false);
 
         if ($result['error']) {
-            return $this->setMessages($result['messages'], true, $this::ERROR_CODE);
+            return $this->setMessages($result['messages'], true, \Constants::ERROR_CODE);
         }
         $object = $result['data'];
 
@@ -172,7 +176,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
             $this->editGroupItems(json_decode($data['group_items'], true), $object->id);
         }
 
-        return $this->setMessages('Field group updated successfully', false, $this::SUCCESS_CODE, $object);
+        return $this->setMessages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
     }
 
     /**
@@ -183,6 +187,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
     public function updateFieldGroup($id, array $data)
     {
         $result = $this->editWithValidate($id, [
+            'order' => $data['order'],
             'rules' => $data['rules'],
             'title' => $data['title'],
             'status' => $data['status'],
@@ -190,7 +195,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
         ], false, true);
 
         if ($result['error']) {
-            return $this->setMessages($result['messages'], true, $this::ERROR_CODE);
+            return $this->setMessages($result['messages'], true, \Constants::ERROR_CODE);
         }
         $object = $result['data'];
 
@@ -202,7 +207,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
             $this->editGroupItems(json_decode($data['group_items'], true), $id);
         }
 
-        return $this->setMessages('Field group updated successfully', false, $this::SUCCESS_CODE, $object);
+        return $this->setMessages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
     }
 
     /**

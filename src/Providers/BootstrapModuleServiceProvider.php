@@ -98,35 +98,30 @@ class BootstrapModuleServiceProvider extends ServiceProvider
 
     private function registerPagesFields()
     {
-        if (interface_exists('\WebEd\Base\Pages\Repositories\Contracts\PageContract')) {
-            \CustomFieldRules::registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
-                ->registerRule('Basic', 'Page', 'page', function () {
-                    $pageRepository = $this->app->make(\WebEd\Base\Pages\Repositories\Contracts\PageContract::class);
-                    $pages = $pageRepository->all([
-                        'order' => 'ASC',
-                        'title' => 'ASC',
-                    ], [
-                        'id',
-                        'title'
-                    ], true);
-                    $pageArray = [];
-                    foreach ($pages as $row) {
-                        $pageArray[$row->id] = $row->title;
-                    }
-                    return $pageArray;
-                })
-                ->registerRule('Other', 'Model name', 'model_name', [
-                    'Page' => 'Page'
-                ]);
-        }
+        \CustomFieldRules::registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
+            ->registerRule('Basic', 'Page', 'page', function () {
+                $pageRepository = $this->app->make(\WebEd\Base\Pages\Repositories\Contracts\PageContract::class);
+                $pages = $pageRepository->all([
+                    'order' => 'ASC',
+                    'title' => 'ASC',
+                ], [
+                    'id',
+                    'title'
+                ], true);
+                $pageArray = [];
+                foreach ($pages as $row) {
+                    $pageArray[$row->id] = $row->title;
+                }
+                return $pageArray;
+            })
+            ->registerRule('Other', 'Model name', 'model_name', [
+                'page' => 'Page'
+            ]);
     }
 
     private function registerBlogFields()
     {
-        if (
-            interface_exists('\WebEd\Plugins\Blog\Repositories\Contracts\PostRepositoryContract') &&
-            interface_exists('\WebEd\Plugins\Blog\Repositories\Contracts\CategoryRepositoryContract')
-        ) {
+        if (modules_management()->isActivated('webed-blog')) {
             /**
              * Register blog group
              */

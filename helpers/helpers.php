@@ -22,6 +22,26 @@ if (!function_exists('parse_custom_fields_raw_data')) {
     }
 }
 
+if (!function_exists('custom_field_rules')) {
+    /**
+     * @return \WebEd\Plugins\CustomFields\Support\CustomFieldRules
+     */
+    function custom_field_rules()
+    {
+        return \WebEd\Plugins\CustomFields\Support\Facades\CustomFieldRules::getFacadeRoot();
+    }
+}
+
+if (!function_exists('render_custom_fields')) {
+    /**
+     * @return \WebEd\Plugins\CustomFields\Support\RenderCustomFields
+     */
+    function render_custom_fields()
+    {
+        return \WebEd\Plugins\CustomFields\Support\Facades\RenderCustomFields::getFacadeRoot();
+    }
+}
+
 if (!function_exists('set_custom_field_rules')) {
     /**
      * @param array $rules
@@ -29,7 +49,7 @@ if (!function_exists('set_custom_field_rules')) {
      */
     function set_custom_field_rules(array $rules)
     {
-        return \RenderCustomFields::setRules($rules);
+        return render_custom_fields()->setRules($rules);
     }
 }
 
@@ -41,7 +61,7 @@ if (!function_exists('add_custom_field_rules')) {
      */
     function add_custom_field_rules($ruleName, $value = null)
     {
-        return \RenderCustomFields::addRules($ruleName, $value);
+        return render_custom_fields()->addRules($ruleName, $value);
     }
 }
 
@@ -57,6 +77,6 @@ if (!function_exists('get_custom_field_boxes')) {
         if (is_object($modelName)) {
             $modelName = get_class($modelName);
         }
-        return \RenderCustomFields::exportCustomFieldsData((string)$modelName, $modelId);
+        return render_custom_fields()->exportCustomFieldsData((string)$modelName, $modelId);
     }
 }

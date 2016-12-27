@@ -18,20 +18,17 @@ class HookServiceProvider extends ServiceProvider
     {
         add_action(
             'meta_boxes',
-            [\WebEd\Plugins\CustomFields\Hook\Actions\Render\MappingActionsByType::class, 'handle'],
-            20
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Render\MappingActionsByType::class, 'handle']
         );
 
         add_action(
             'pages.after-edit.post',
-            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Pages::class, 'afterSaveContent'],
-            20
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Pages::class, 'afterSaveContent']
         );
 
         add_action(
             'footer_js',
-            [\WebEd\Plugins\CustomFields\Hook\Actions\AssetsInjection::class, 'renderJs'],
-            20
+            [\WebEd\Plugins\CustomFields\Hook\Actions\AssetsInjection::class, 'renderJs']
         );
 
         /**
@@ -39,13 +36,11 @@ class HookServiceProvider extends ServiceProvider
          */
         add_action(
             'blog.posts.after-edit.post',
-            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Posts::class, 'afterSaveContent'],
-            20
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Posts::class, 'afterSaveContent']
         );
         add_action(
             'blog.categories.after-edit.post',
-            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Categories::class, 'afterSaveContent'],
-            20
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Categories::class, 'afterSaveContent']
         );
     }
 }

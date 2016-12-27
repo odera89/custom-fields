@@ -68,6 +68,16 @@
                             </option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            <b>Sort order</b>
+                        </label>
+                        <input required type="text"
+                               name="order"
+                               class="form-control"
+                               value="{{ $object->order or 0 }}"
+                               autocomplete="off">
+                    </div>
                 </div>
             </div>
         </div>

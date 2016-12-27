@@ -35,6 +35,10 @@ abstract class AbstractRenderer
     {
         $customFieldBoxes = get_custom_field_boxes($item, $item->id);
 
+        if (!$customFieldBoxes) {
+            return;
+        }
+
         $view = view('webed-custom-fields::admin.custom-fields-boxes-renderer', [
             'customFieldBoxes' => json_encode($customFieldBoxes),
         ])->render();
