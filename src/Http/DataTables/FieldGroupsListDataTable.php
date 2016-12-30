@@ -11,7 +11,7 @@ class FieldGroupsListDataTable extends AbstractDataTables
     {
         $this->repository = $repository;
 
-        $this->repository->select('id', 'created_at');
+        $this->repository->select('id', 'title', 'status', 'order');
 
         parent::__construct();
     }

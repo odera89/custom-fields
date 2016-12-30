@@ -27,6 +27,11 @@ class HookServiceProvider extends ServiceProvider
         );
 
         add_action(
+            'pages.after-create.post',
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Pages::class, 'afterCreate']
+        );
+
+        add_action(
             'footer_js',
             [\WebEd\Plugins\CustomFields\Hook\Actions\AssetsInjection::class, 'renderJs']
         );

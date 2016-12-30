@@ -13,7 +13,8 @@ class MappingActionsByType
      * @var array
      */
     protected $mapping = [
-        'page' => 'Pages',
+        'pages.create' => 'Pages',
+        'pages.edit' => 'Pages',
         'blog.post' => 'Posts',
         'blog.category' => 'Categories',
     ];
