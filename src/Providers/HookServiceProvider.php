@@ -44,7 +44,15 @@ class HookServiceProvider extends ServiceProvider
             [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Posts::class, 'afterSaveContent']
         );
         add_action(
+            'blog.posts.after-create.post',
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Posts::class, 'afterSaveContent']
+        );
+        add_action(
             'blog.categories.after-edit.post',
+            [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Categories::class, 'afterSaveContent']
+        );
+        add_action(
+            'blog.categories.after-create.post',
             [\WebEd\Plugins\CustomFields\Hook\Actions\Store\Categories::class, 'afterSaveContent']
         );
     }

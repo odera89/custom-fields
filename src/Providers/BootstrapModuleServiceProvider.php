@@ -59,7 +59,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
     private function registerUsersFields()
     {
         \CustomFieldRules::registerRule('Other', 'Logged in user', 'logged_in_user', function () {
-            $userRepository = app(\WebEd\Base\Users\Repositories\Contracts\UserContract::class);
+            $userRepository = app(\WebEd\Base\Users\Repositories\Contracts\UserRepositoryContract::class);
 
             $users = $userRepository->all([
                 'created_at' => 'DESC',
@@ -77,7 +77,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             return $userArr;
         })
             ->registerRule('Other', 'Logged in user has role', 'logged_in_user_has_role', function () {
-                $repository = app(\WebEd\Base\ACL\Repositories\Contracts\RoleContract::class);
+                $repository = app(\WebEd\Base\ACL\Repositories\Contracts\RoleRepositoryContract::class);
 
                 $roles = $repository->all([
                     'created_at' => 'DESC',

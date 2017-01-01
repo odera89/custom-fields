@@ -2,14 +2,14 @@
 
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Models\EloquentBase;
-use WebEd\Base\Users\Models\EloquentUser;
+use WebEd\Base\Users\Models\User;
 
 abstract class AbstractRenderer
 {
     public function __construct()
     {
         /**
-         * @var EloquentUser $loggedInUser
+         * @var User $loggedInUser
          */
         $loggedInUser = auth()->user();
 

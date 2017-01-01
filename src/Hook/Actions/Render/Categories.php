@@ -14,7 +14,7 @@ class Categories extends AbstractRenderer
      */
     public function render($type, BaseModelContract $item)
     {
-        if ($type !== 'blog.category') {
+        if (!($type === 'blog.categories.create' || $type === 'blog.categories.edit')) {
             return;
         }
 
