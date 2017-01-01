@@ -4,6 +4,6 @@
     "author": "Tedozi Manson - <a href=\"https://github.com/duyphan2502\">https://github.com/duyphan2502</a>",
     "description": "Custom fields management package",
     "namespace": "WebEd\\Plugins\\CustomFields",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "autoload": "psr-4"
 }
