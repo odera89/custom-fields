@@ -36,13 +36,14 @@ class BootstrapModuleServiceProvider extends ServiceProvider
          */
         \DashboardMenu::registerItem([
             'id' => 'webed-custom-fields',
-            'piority' => 20.1,
+            'priority' => 20.1,
             'parent_id' => null,
             'heading' => null,
             'title' => 'Custom fields',
             'font_icon' => 'icon-briefcase',
             'link' => route('admin::custom-fields.index.get'),
             'css_class' => null,
+            'permissions' => ['view-custom-fields'],
         ]);
 
         /**
