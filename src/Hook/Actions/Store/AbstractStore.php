@@ -249,9 +249,9 @@ abstract class AbstractStore
                      * Begin save custom fields
                      */
                     $this->saveCustomFields($object, $customFieldsData);
-                    \FlashMessages::addMessages('Related custom fields updated', 'success');
+                    flash_messages()->addMessages('Related custom fields updated', 'success');
                 } catch (\Exception $exception) {
-                    \FlashMessages::addMessages($exception->getMessage(), 'error');
+                    flash_messages()->addMessages($exception->getMessage(), 'error');
                 }
             }
         }

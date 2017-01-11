@@ -10,7 +10,18 @@ class CustomFieldRules
     /**
      * @var array
      */
-    protected $ruleGroups = [];
+    protected $ruleGroups = [
+        'Basic' => [
+            'items' => [
+
+            ],
+        ],
+        'Other' => [
+            'items' => [
+
+            ],
+        ]
+    ];
 
     /**
      * @return $this
@@ -58,7 +69,7 @@ class CustomFieldRules
      */
     public function render()
     {
-        return view($this->module.'::admin._script-templates.rules', [
+        return view($this->module . '::admin._script-templates.rules', [
             'ruleGroups' => $this->resolveGroups()
         ])->render();
     }

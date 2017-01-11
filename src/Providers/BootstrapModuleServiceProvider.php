@@ -46,12 +46,6 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             'permissions' => ['view-custom-fields'],
         ]);
 
-        /**
-         * Register some rule groups
-         */
-        \CustomFieldRules::registerRuleGroup('Basic')
-            ->registerRuleGroup('Other');
-
         $this->registerUsersFields();
         $this->registerPagesFields();
         $this->registerBlogFields();
@@ -59,7 +53,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
 
     private function registerUsersFields()
     {
-        \CustomFieldRules::registerRule('Other', 'Logged in user', 'logged_in_user', function () {
+        custom_field_rules()->registerRule('Other', 'Logged in user', 'logged_in_user', function () {
             $userRepository = app(\WebEd\Base\Users\Repositories\Contracts\UserRepositoryContract::class);
 
             $users = $userRepository->all([
@@ -99,7 +93,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
 
     private function registerPagesFields()
     {
-        \CustomFieldRules::registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
+        custom_field_rules()->registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
             ->registerRule('Basic', 'Page', 'page', function () {
                 $pageRepository = $this->app->make(\WebEd\Base\Pages\Repositories\Contracts\PageContract::class);
                 $pages = $pageRepository->all([
@@ -128,7 +122,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
              */
             $categories = get_categories();
 
-            \CustomFieldRules::registerRuleGroup('Blog')
+            custom_field_rules()->registerRuleGroup('Blog')
                 ->registerRule('Blog', 'Post template', 'blog.post_template', get_templates('Post'))
                 ->registerRule('Blog', 'Category template', 'blog.category_template', get_templates('Category'))
                 ->registerRule('Blog', 'Category', 'blog.category', function () use ($categories) {
