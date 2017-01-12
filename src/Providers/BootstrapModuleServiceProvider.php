@@ -117,22 +117,21 @@ class BootstrapModuleServiceProvider extends ServiceProvider
     private function registerBlogFields()
     {
         if (modules_management()->isActivated('webed-blog')) {
-            /**
-             * Register blog group
-             */
-            $categories = get_categories();
-
             custom_field_rules()->registerRuleGroup('Blog')
                 ->registerRule('Blog', 'Post template', 'blog.post_template', get_templates('Post'))
                 ->registerRule('Blog', 'Category template', 'blog.category_template', get_templates('Category'))
-                ->registerRule('Blog', 'Category', 'blog.category', function () use ($categories) {
+                ->registerRule('Blog', 'Category', 'blog.category', function () {
+                    $categories = get_categories();
+
                     $categoriesArr = [];
                     foreach ($categories as $row) {
                         $categoriesArr[$row->id] = $row->indent_text . $row->title;
                     }
                     return $categoriesArr;
                 })
-                ->registerRule('Blog', 'Posts with related category', 'blog.post_with_related_category', function () use ($categories) {
+                ->registerRule('Blog', 'Posts with related category', 'blog.post_with_related_category', function () {
+                    $categories = get_categories();
+
                     $categoriesArr = [];
                     foreach ($categories as $row) {
                         $categoriesArr[$row->id] = $row->indent_text . $row->title;
