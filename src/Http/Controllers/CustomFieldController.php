@@ -3,6 +3,8 @@
 use WebEd\Base\Core\Http\Controllers\BaseAdminController;
 
 use WebEd\Plugins\CustomFields\Http\DataTables\FieldGroupsListDataTable;
+use WebEd\Plugins\CustomFields\Http\Requests\CreateFieldGroupRequest;
+use WebEd\Plugins\CustomFields\Http\Requests\UpdateFieldGroupRequest;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldItemContract;
 use Yajra\Datatables\Engines\BaseEngine;
@@ -65,7 +67,7 @@ class CustomFieldController extends BaseAdminController
         $data = [];
         if ($this->request->get('customActionType', null) == 'group_action') {
 
-            if(!$this->userRepository->hasPermission($this->loggedInUser, 'edit-field-groups')) {
+            if(!$this->userRepository->hasPermission($this->loggedInUser, ['edit-field-groups'])) {
                 return [
                     'customActionMessage' => 'You do not have permission',
                     'customActionStatus' => 'danger',
@@ -78,7 +80,7 @@ class CustomFieldController extends BaseAdminController
 
             switch ($actionValue) {
                 case 'deleted':
-                    if(!$this->userRepository->hasPermission($this->loggedInUser, 'delete-field-groups')) {
+                    if(!$this->userRepository->hasPermission($this->loggedInUser, ['delete-field-groups'])) {
                         return [
                             'customActionMessage' => 'You do not have permission',
                             'customActionStatus' => 'danger',
@@ -142,7 +144,32 @@ class CustomFieldController extends BaseAdminController
             }
         }
 
-        return do_filter('custom-fields.create.get', $this)->viewAdmin('edit');
+        return do_filter('custom-fields.create.get', $this)->viewAdmin('create');
+    }
+
+    public function postCreate(CreateFieldGroupRequest $request)
+    {
+        $result = $this->repository->createFieldGroup(array_merge($request->except(['_token']), [
+            'updated_by' => $this->loggedInUser->id,
+        ]));
+
+        $msgType = $result['error'] ? 'danger' : 'success';
+
+        $this->flashMessagesHelper
+            ->addMessages($result['messages'], $msgType)
+            ->showMessagesOnSession();
+
+        if ($result['error']) {
+            return redirect()->back()->withInput();
+        }
+
+        do_action('custom-fields.after-create.post', null, $result, $this);
+
+        if ($request->has('_continue_edit')) {
+            return redirect()->to(route('admin::custom-fields.field-group.edit.get', ['id' => $result['data']->id]));
+        }
+
+        return redirect()->to(route('admin::custom-fields.index.get'));
     }
 
     public function getEdit($id)
@@ -171,15 +198,11 @@ class CustomFieldController extends BaseAdminController
         return do_filter('custom-fields.edit.get', $this, $id)->viewAdmin('edit');
     }
 
-    public function postEdit($id = null)
+    public function postEdit(UpdateFieldGroupRequest $request, $id)
     {
-        $this->middleware('has-permission:edit-field-groups');
-
-        if (!$id) {
-            $result = $this->createFieldGroup();
-        } else {
-            $result = $this->updateFieldGroup($id);
-        }
+        $result = $this->repository->updateFieldGroup($id, array_merge($request->except(['_token']), [
+            'updated_by' => $this->loggedInUser->id
+        ]));
 
         $msgType = $result['error'] ? 'danger' : 'success';
 
@@ -188,38 +211,16 @@ class CustomFieldController extends BaseAdminController
             ->showMessagesOnSession();
 
         if ($result['error']) {
-            if((int)$id < 1) {
-                return redirect()->back()->withInput();
-            }
             return redirect()->back();
         }
 
         do_action('custom-fields.after-edit.post', $id, $result, $this);
 
-        if ($this->request->has('_continue_edit')) {
-            if (!$id) {
-                return redirect()->to(route('admin::custom-fields.field-group.edit.get', ['id' => $result['data']->id]));
-            }
+        if ($request->has('_continue_edit')) {
             return redirect()->back();
         }
 
         return redirect()->to(route('admin::custom-fields.index.get'));
-    }
-
-    private function createFieldGroup()
-    {
-        if(!$this->userRepository->hasPermission($this->loggedInUser, 'create-field-groups')) {
-            return redirect()->to(route('admin::error', ['code' => 403]));
-        }
-
-        return $this->repository->createFieldGroup(array_merge($this->request->except(['_token']), [
-            'updated_by' => $this->loggedInUser->id,
-        ]));
-    }
-
-    private function updateFieldGroup($id)
-    {
-        return $this->repository->updateFieldGroup($id, array_merge($this->request->except(['_token']), ['updated_by' => $this->loggedInUser->id]));
     }
 
     public function deleteDelete($id)

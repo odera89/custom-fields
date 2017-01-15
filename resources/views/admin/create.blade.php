@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    {!! Form::open(['class' => 'js-validate-form form-update-field-group', 'url' => route('admin::custom-fields.field-group.edit.post', ['id' => $object->id])]) !!}
+    {!! Form::open(['class' => 'js-validate-form form-update-field-group', 'url' => route('admin::custom-fields.field-group.create.post')]) !!}
     <textarea name="rules"
               id="custom_fields_rules"
               class="form-control hidden"

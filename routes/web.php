@@ -30,6 +30,10 @@ $router->group(['prefix' => $adminRoute . '/' . $moduleRoute], function (Router 
         ->name('admin::custom-fields.field-group.create.get')
         ->middleware('has-permission:create-field-groups');
 
+    $router->post('/create', 'CustomFieldController@postCreate')
+        ->name('admin::custom-fields.field-group.create.post')
+        ->middleware('has-permission:create-field-groups');
+
     $router->get('/edit/{id}', 'CustomFieldController@getEdit')
         ->name('admin::custom-fields.field-group.edit.get')
         ->middleware('has-permission:edit-field-groups');

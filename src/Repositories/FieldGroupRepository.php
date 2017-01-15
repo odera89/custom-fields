@@ -14,7 +14,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
         'order' => 'integer|min:0',
         'rules' => 'json|required',
         'title' => 'string|required|max:255',
-        'status' => 'required|in:activated,disabled,deleted',
+        'status' => 'required|in:activated,disabled',
         'created_by' => 'integer|min:0',
         'updated_by' => 'integer|min:0',
     ];
