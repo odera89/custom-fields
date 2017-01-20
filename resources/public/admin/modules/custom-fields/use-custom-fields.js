@@ -285,6 +285,7 @@ var UseCustomFields = function ($) {
                 case 'file':
                     customFieldData.value = $item.find('> .meta-box-wrap input').val();
                     break;
+                case 'wysiwyg':
                 case 'textarea':
                     customFieldData.value = $item.find('> .meta-box-wrap textarea').val();
                     break;
@@ -369,14 +370,13 @@ var UseCustomFields = function ($) {
         };
 
         $_EXPORT_TO.closest('form').on('submit', function (event) {
-            //event.preventDefault();
             $_EXPORT_TO.val(JSON.stringify(getFieldGroups()));
         });
     };
 
     return {
         init: function () {
-            if(typeof CURRENT_DATA === 'undefined') {
+            if (typeof CURRENT_DATA === 'undefined') {
                 return;
             }
             handleCustomFields();
