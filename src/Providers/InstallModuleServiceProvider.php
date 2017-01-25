@@ -69,7 +69,6 @@ class InstallModuleServiceProvider extends ServiceProvider
             $table->string('type', 100);
             $table->text('instructions')->nullable();
             $table->text('options')->nullable();
-            $table->unique(['field_group_id', 'parent_id', 'slug']);
 
             $table->foreign('field_group_id')->references('id')->on('field_groups')->onDelete('cascade');
             $table->foreign('parent_id')->references('id')->on('field_items')->onDelete('cascade');

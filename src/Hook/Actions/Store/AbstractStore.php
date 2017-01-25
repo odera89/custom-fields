@@ -4,7 +4,7 @@ use WebEd\Base\Caching\Repositories\AbstractRepositoryCacheDecorator;
 use WebEd\Base\Core\Http\Controllers\BaseAdminController;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
-use WebEd\Plugins\CustomFields\Models\EloquentCustomField;
+use WebEd\Plugins\CustomFields\Models\CustomField;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\CustomFieldContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldItemContract;
@@ -71,7 +71,7 @@ abstract class AbstractStore
      */
     public function setCustomFieldRelationship($model)
     {
-        return $model->morphMany(EloquentCustomField::class, 'useCustomFields', 'use_for', 'use_for_id');
+        return $model->morphMany(CustomField::class, 'useCustomFields', 'use_for', 'use_for_id');
     }
 
     /**

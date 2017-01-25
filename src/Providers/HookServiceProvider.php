@@ -16,6 +16,8 @@ class HookServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        assets_management()->addJavascripts(['jquery-ckeditor']);
+
         add_action(
             'meta_boxes',
             [\WebEd\Plugins\CustomFields\Hook\Actions\Render\MappingActionsByType::class, 'handle']

@@ -1,6 +1,6 @@
 <?php namespace WebEd\Plugins\CustomFields\Hook\Actions;
 
-use WebEd\Base\AssetsManagement\Assets;
+use Illuminate\Support\Facades\Route;
 
 class AssetsInjection
 {
@@ -23,18 +23,14 @@ class AssetsInjection
         'admin::blog.categories.edit.get',
     ];
 
-    /**
-     * @var Assets;
-     */
-    protected $assets;
-
     public function __construct()
     {
-        $this->currentRouteName = \Route::currentRouteName();
-
-        $this->assets = \WebEd\Base\AssetsManagement\Facades\Assets::getFacadeRoot();
+        $this->currentRouteName = Route::currentRouteName();
     }
 
+    /**
+     * @return bool
+     */
     public function checkAllowedRoute()
     {
         if (in_array($this->currentRouteName, $this->allowedRoute)) {
@@ -50,12 +46,6 @@ class AssetsInjection
     {
         if (!$this->checkAllowedRoute()) {
             return;
-        }
-
-        if (!$this->assets->assetLoaded('jquery-ckeditor', 'js')) {
-            echo '<script type="text/javascript" src="' . asset('admin/plugins/ckeditor/ckeditor.js') . '"></script>';
-            echo '<script type="text/javascript" src="' . asset('admin/plugins/ckeditor/config.js') . '"></script>';
-            echo '<script type="text/javascript" src="' . asset('admin/plugins/ckeditor/adapters/jquery.js') . '"></script>';
         }
 
         echo view('webed-custom-fields::admin._script-templates.render-custom-fields')->render();

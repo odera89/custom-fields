@@ -29,7 +29,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
 
     }
 
-    private function booted()
+    protected function booted()
     {
         /**
          * Register to dashboard menu
@@ -51,7 +51,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
         $this->registerBlogFields();
     }
 
-    private function registerUsersFields()
+    protected function registerUsersFields()
     {
         custom_field_rules()->registerRule('Other', 'Logged in user', 'logged_in_user', function () {
             $userRepository = app(\WebEd\Base\Users\Repositories\Contracts\UserRepositoryContract::class);
@@ -91,7 +91,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             });
     }
 
-    private function registerPagesFields()
+    protected function registerPagesFields()
     {
         custom_field_rules()->registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
             ->registerRule('Basic', 'Page', 'page', function () {
@@ -114,9 +114,9 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             ]);
     }
 
-    private function registerBlogFields()
+    protected function registerBlogFields()
     {
-        if (modules_management()->isActivated('webed-blog')) {
+        if (modules_management()->isActivated('webed-blog') && modules_management()->isInstalled('webed-blog')) {
             custom_field_rules()->registerRuleGroup('Blog')
                 ->registerRule('Blog', 'Post template', 'blog.post_template', get_templates('Post'))
                 ->registerRule('Blog', 'Category template', 'blog.category_template', get_templates('Category'))

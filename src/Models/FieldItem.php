@@ -3,7 +3,7 @@
 use WebEd\Base\Core\Models\EloquentBase as BaseModel;
 use WebEd\Plugins\CustomFields\Models\Contracts\FieldItemContract;
 
-class EloquentFieldItem extends BaseModel implements FieldItemContract
+class FieldItem extends BaseModel implements FieldItemContract
 {
     protected $table = 'field_items';
 
@@ -16,7 +16,7 @@ class EloquentFieldItem extends BaseModel implements FieldItemContract
      */
     public function fieldGroup()
     {
-        return $this->belongsTo(EloquentFieldGroup::class, 'field_group_id');
+        return $this->belongsTo(FieldGroup::class, 'field_group_id');
     }
 
     /**
@@ -24,7 +24,7 @@ class EloquentFieldItem extends BaseModel implements FieldItemContract
      */
     public function parent()
     {
-        return $this->belongsTo(EloquentFieldItem::class, 'parent_id');
+        return $this->belongsTo(FieldItem::class, 'parent_id');
     }
 
     /**
@@ -32,6 +32,6 @@ class EloquentFieldItem extends BaseModel implements FieldItemContract
      */
     public function child()
     {
-        return $this->hasMany(EloquentFieldItem::class, 'parent_id');
+        return $this->hasMany(FieldItem::class, 'parent_id');
     }
 }

@@ -3,7 +3,7 @@
 use WebEd\Base\Core\Models\EloquentBase as BaseModel;
 use WebEd\Plugins\CustomFields\Models\Contracts\CustomFieldContract;
 
-class EloquentCustomField extends BaseModel implements CustomFieldContract
+class CustomField extends BaseModel implements CustomFieldContract
 {
     protected $table = 'custom_fields';
 

@@ -3,7 +3,7 @@
 use WebEd\Base\Core\Models\EloquentBase as BaseModel;
 use WebEd\Plugins\CustomFields\Models\Contracts\FieldGroupContract;
 
-class EloquentFieldGroup extends BaseModel implements FieldGroupContract
+class FieldGroup extends BaseModel implements FieldGroupContract
 {
     protected $table = 'field_groups';
 
@@ -14,6 +14,6 @@ class EloquentFieldGroup extends BaseModel implements FieldGroupContract
      */
     public function fieldItems()
     {
-        return $this->hasMany(EloquentFieldItem::class, 'field_group_id');
+        return $this->hasMany(FieldItem::class, 'field_group_id');
     }
 }

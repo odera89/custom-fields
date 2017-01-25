@@ -1,9 +1,9 @@
 <?php namespace WebEd\Plugins\CustomFields\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use WebEd\Plugins\CustomFields\Models\EloquentCustomField;
-use WebEd\Plugins\CustomFields\Models\EloquentFieldGroup;
-use WebEd\Plugins\CustomFields\Models\EloquentFieldItem;
+use WebEd\Plugins\CustomFields\Models\CustomField;
+use WebEd\Plugins\CustomFields\Models\FieldGroup;
+use WebEd\Plugins\CustomFields\Models\FieldItem;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\CustomFieldContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldItemContract;
@@ -34,7 +34,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(FieldGroupContract::class, function () {
-            $repository = new FieldGroupRepository(new EloquentFieldGroup);
+            $repository = new FieldGroupRepository(new FieldGroup);
 
             if (config('webed-caching.repository.enabled')) {
                 return new FieldGroupRepositoryCacheDecorator($repository);
@@ -43,7 +43,7 @@ class RepositoryServiceProvider extends ServiceProvider
             return $repository;
         });
         $this->app->bind(FieldItemContract::class, function () {
-            $repository = new FieldItemRepository(new EloquentFieldItem);
+            $repository = new FieldItemRepository(new FieldItem);
 
             if (config('webed-caching.repository.enabled')) {
                 return new FieldItemRepositoryCacheDecorator($repository);
@@ -52,7 +52,7 @@ class RepositoryServiceProvider extends ServiceProvider
             return $repository;
         });
         $this->app->bind(CustomFieldContract::class, function () {
-            $repository = new CustomFieldRepository(new EloquentCustomField);
+            $repository = new CustomFieldRepository(new CustomField);
 
             if (config('webed-caching.repository.enabled')) {
                 return new CustomFieldRepositoryCacheDecorator($repository);
