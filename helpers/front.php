@@ -8,9 +8,10 @@ if (!function_exists('get_field')) {
     /**
      * @param BaseModelContract|EloquentBase $object
      * @param null $alias
+     * @param null|mixed $default
      * @return mixed|null
      */
-    function get_field(BaseModelContract $object, $alias = null)
+    function get_field(BaseModelContract $object, $alias = null, $default = null)
     {
         /**
          * @var \WebEd\Plugins\CustomFields\Repositories\CustomFieldRepository $customFieldRepository
@@ -33,7 +34,7 @@ if (!function_exists('get_field')) {
             ->first();
 
         if (!$field) {
-            return null;
+            return $default;
         }
 
         return $field->resolved_value;
