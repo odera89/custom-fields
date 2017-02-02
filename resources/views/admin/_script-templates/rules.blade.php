@@ -1,5 +1,5 @@
 <script type="text/x-custom-template" id="rules_group_template">
-    <div class="line rule-line">
+    <div class="line rule-line mb10">
         <select class="form-control pull-left rule-a">
             @foreach($ruleGroups as $key => $row)
                 <optgroup label="{{ $key or '' }}">
