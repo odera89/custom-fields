@@ -1,17 +1,19 @@
 <?php namespace WebEd\Plugins\CustomFields\Http\DataTables;
 
 use WebEd\Base\Core\Http\DataTables\AbstractDataTables;
+use WebEd\Plugins\CustomFields\Models\FieldGroup;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 
 class FieldGroupsListDataTable extends AbstractDataTables
 {
-    protected $repository;
+    /**
+     * @var FieldGroup
+     */
+    protected $model;
 
-    public function __construct(FieldGroupContract $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
-
-        $this->repository->select('id', 'title', 'status', 'order');
+        $this->model = FieldGroup::select('id', 'title', 'status', 'order');
 
         parent::__construct();
     }
@@ -63,7 +65,7 @@ class FieldGroupsListDataTable extends AbstractDataTables
      */
     protected function fetch()
     {
-        $this->fetch = datatable()->of($this->repository)
+        $this->fetch = datatable()->of($this->model)
             ->editColumn('id', function ($item) {
                 return form()->customCheckbox([
                     ['id[]', $item->id]

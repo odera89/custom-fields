@@ -1,12 +1,14 @@
 <?php namespace WebEd\Plugins\CustomFields\Repositories;
 
-use WebEd\Base\Core\Repositories\AbstractBaseRepository;
+use WebEd\Base\Caching\Services\Traits\Cacheable;
+use WebEd\Base\Core\Repositories\Eloquent\EloquentBaseRepository;
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
-
 use WebEd\Plugins\CustomFields\Repositories\Contracts\CustomFieldContract;
 
-class CustomFieldRepository extends AbstractBaseRepository implements CustomFieldContract, CacheableContract
+class CustomFieldRepository extends EloquentBaseRepository implements CustomFieldContract, CacheableContract
 {
+    use Cacheable;
+
     protected $rules = [
         'use_for' => 'required',
         'use_for_id' => 'required|integer',

@@ -56,13 +56,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
         custom_field_rules()->registerRule('Other', 'Logged in user', 'logged_in_user', function () {
             $userRepository = app(\WebEd\Base\Users\Repositories\Contracts\UserRepositoryContract::class);
 
-            $users = $userRepository->all([
-                'created_at' => 'DESC',
-            ], [
-                'id',
-                'username',
-                'email',
-            ], true);
+            $users = $userRepository->get();
 
             $userArr = [];
             foreach ($users as $user) {
@@ -74,13 +68,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             ->registerRule('Other', 'Logged in user has role', 'logged_in_user_has_role', function () {
                 $repository = app(\WebEd\Base\ACL\Repositories\Contracts\RoleRepositoryContract::class);
 
-                $roles = $repository->all([
-                    'created_at' => 'DESC',
-                ], [
-                    'id',
-                    'name',
-                    'slug',
-                ], true);
+                $roles = $repository->get();
 
                 $rolesArr = [];
                 foreach ($roles as $role) {
@@ -96,13 +84,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
         custom_field_rules()->registerRule('Basic', 'Page template', 'page_template', get_templates('Page'))
             ->registerRule('Basic', 'Page', 'page', function () {
                 $pageRepository = $this->app->make(\WebEd\Base\Pages\Repositories\Contracts\PageContract::class);
-                $pages = $pageRepository->all([
-                    'order' => 'ASC',
-                    'title' => 'ASC',
-                ], [
-                    'id',
-                    'title'
-                ], true);
+                $pages = $pageRepository->get();
                 $pageArray = [];
                 foreach ($pages as $row) {
                     $pageArray[$row->id] = $row->title;

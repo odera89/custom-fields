@@ -1,9 +1,9 @@
 <?php namespace WebEd\Plugins\CustomFields\Repositories;
 
-use WebEd\Base\Caching\Repositories\AbstractRepositoryCacheDecorator;
+use WebEd\Base\Caching\Repositories\Eloquent\EloquentBaseRepositoryCacheDecorator;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldItemContract;
 
-class FieldItemRepositoryCacheDecorator extends AbstractRepositoryCacheDecorator implements FieldItemContract
+class FieldItemRepositoryCacheDecorator extends EloquentBaseRepositoryCacheDecorator implements FieldItemContract
 {
     public function updateFieldItem($id, array $data)
     {

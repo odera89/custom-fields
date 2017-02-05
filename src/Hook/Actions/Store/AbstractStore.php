@@ -1,9 +1,9 @@
 <?php namespace WebEd\Plugins\CustomFields\Hook\Actions\Store;
 
-use WebEd\Base\Caching\Repositories\AbstractRepositoryCacheDecorator;
+use WebEd\Base\Caching\Repositories\Eloquent\EloquentBaseRepositoryCacheDecorator;
 use WebEd\Base\Core\Http\Controllers\BaseAdminController;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
-use WebEd\Base\Core\Repositories\AbstractBaseRepository;
+use WebEd\Base\Core\Repositories\Eloquent\EloquentBaseRepository;
 use WebEd\Plugins\CustomFields\Models\CustomField;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\CustomFieldContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
@@ -15,7 +15,7 @@ use WebEd\Plugins\CustomFields\Repositories\FieldItemRepository;
 abstract class AbstractStore
 {
     /**
-     * @var AbstractBaseRepository
+     * @var EloquentBaseRepository
      */
     protected $repository;
 
@@ -203,13 +203,13 @@ abstract class AbstractStore
      */
     protected function flushCache()
     {
-        if ($this->customFieldRepository instanceof AbstractRepositoryCacheDecorator) {
+        if ($this->customFieldRepository instanceof EloquentBaseRepositoryCacheDecorator) {
             $this->customFieldRepository->getCacheInstance()->flushCache();
         }
-        if ($this->fieldGroupRepository instanceof AbstractRepositoryCacheDecorator) {
+        if ($this->fieldGroupRepository instanceof EloquentBaseRepositoryCacheDecorator) {
             $this->fieldGroupRepository->getCacheInstance()->flushCache();
         }
-        if ($this->fieldItemRepository instanceof AbstractRepositoryCacheDecorator) {
+        if ($this->fieldItemRepository instanceof EloquentBaseRepositoryCacheDecorator) {
             $this->fieldItemRepository->getCacheInstance()->flushCache();
         }
     }

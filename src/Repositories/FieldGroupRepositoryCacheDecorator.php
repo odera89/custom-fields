@@ -1,9 +1,9 @@
 <?php namespace WebEd\Plugins\CustomFields\Repositories;
 
-use WebEd\Base\Caching\Repositories\AbstractRepositoryCacheDecorator;
+use WebEd\Base\Caching\Repositories\Eloquent\EloquentBaseRepositoryCacheDecorator;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 
-class FieldGroupRepositoryCacheDecorator extends AbstractRepositoryCacheDecorator implements FieldGroupContract
+class FieldGroupRepositoryCacheDecorator extends EloquentBaseRepositoryCacheDecorator implements FieldGroupContract
 {
     public function getGroupItems($groupId, $parentId = null)
     {

@@ -1,22 +1,25 @@
 <?php namespace WebEd\Plugins\CustomFields\Repositories;
 
+use WebEd\Base\Caching\Services\Traits\Cacheable;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
-use WebEd\Base\Core\Repositories\AbstractBaseRepository;
+use WebEd\Base\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\CustomFieldContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldGroupContract;
 use WebEd\Plugins\CustomFields\Repositories\Contracts\FieldItemContract;
 
-class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupContract, CacheableContract
+class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupContract, CacheableContract
 {
+    use Cacheable;
+
     protected $rules = [
         'order' => 'integer|min:0',
         'rules' => 'json|required',
         'title' => 'string|required|max:255',
         'status' => 'required|in:activated,disabled',
-        'created_by' => 'integer|min:0',
-        'updated_by' => 'integer|min:0',
+        'created_by' => 'integer|min:0|required',
+        'updated_by' => 'integer|min:0|required',
     ];
 
     protected $editableFields = [
@@ -29,12 +32,12 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
     ];
 
     /**
-     * @var \WebEd\Plugins\CustomFields\Repositories\FieldItemRepository|\WebEd\Plugins\CustomFields\Repositories\FieldItemRepositoryCacheDecorator
+     * @var FieldItemRepository|FieldItemRepositoryCacheDecorator
      */
     protected $fieldItemRepository;
 
     /**
-     * @var \WebEd\Plugins\CustomFields\Repositories\CustomFieldRepository|\WebEd\Plugins\CustomFields\Repositories\CustomFieldRepositoryCacheDecorator
+     * @var CustomFieldRepository|CustomFieldRepositoryCacheDecorator
      */
     protected $customFieldRepository;
 
@@ -168,7 +171,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
         ], true, false);
 
         if ($result['error']) {
-            return $this->setMessages($result['messages'], true, \Constants::ERROR_CODE);
+            return response_with_messages($result['messages'], true, \Constants::ERROR_CODE);
         }
         $object = $result['data'];
 
@@ -176,7 +179,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
             $this->editGroupItems(json_decode($data['group_items'], true), $object->id);
         }
 
-        return $this->setMessages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
+        return response_with_messages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
     }
 
     /**
@@ -195,7 +198,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
         ], false, true);
 
         if ($result['error']) {
-            return $this->setMessages($result['messages'], true, \Constants::ERROR_CODE);
+            return response_with_messages($result['messages'], true, \Constants::ERROR_CODE);
         }
         $object = $result['data'];
 
@@ -207,7 +210,7 @@ class FieldGroupRepository extends AbstractBaseRepository implements FieldGroupC
             $this->editGroupItems(json_decode($data['group_items'], true), $id);
         }
 
-        return $this->setMessages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
+        return response_with_messages('Field group updated successfully', false, \Constants::SUCCESS_CODE, $object);
     }
 
     /**
