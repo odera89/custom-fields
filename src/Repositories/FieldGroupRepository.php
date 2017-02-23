@@ -84,7 +84,6 @@ class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupC
         $fieldItems = $this->getGroupItems($groupId, $parentId);
 
         foreach ($fieldItems as $key => $row) {
-
             $item = [
                 'id' => $row->id,
                 'title' => $row->title,
@@ -108,7 +107,7 @@ class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupC
         return $result;
     }
 
-    private function getFieldItemValue($fieldItem, $morphClass, $morphId)
+    protected function getFieldItemValue($fieldItem, $morphClass, $morphId)
     {
         if (is_object($morphClass)) {
             $morphClass = get_class($morphClass);
@@ -125,7 +124,7 @@ class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupC
         return ($field) ? $field->value : null;
     }
 
-    private function getRepeaterValue($items, $data)
+    protected function getRepeaterValue($items, $data)
     {
         if (!$items) {
             return null;
@@ -229,7 +228,7 @@ class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupC
      * @param int $groupId
      * @param int|null $parentId
      */
-    private function editGroupItems($items, $groupId, $parentId = null)
+    protected function editGroupItems($items, $groupId, $parentId = null)
     {
         $position = 0;
         $items = (array)$items;
@@ -260,7 +259,7 @@ class FieldGroupRepository extends EloquentBaseRepository implements FieldGroupC
     /**
      * @param array|int $items
      */
-    private function deleteGroupItems($items)
+    protected function deleteGroupItems($items)
     {
         return $this->fieldItemRepository->delete((array)$items);
     }

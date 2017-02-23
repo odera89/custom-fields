@@ -21,6 +21,10 @@ class FieldItemRepository extends EloquentBaseRepository implements FieldItemCon
         'options' => 'required|json',
     ];
 
+    protected $editableFields = [
+        '*',
+    ];
+
     /**
      * @param int $id
      * @param array $data

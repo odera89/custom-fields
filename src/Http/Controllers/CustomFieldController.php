@@ -123,8 +123,6 @@ class CustomFieldController extends BaseAdminController
 
     public function getCreate()
     {
-        $this->middleware('has-permission:create-field-groups');
-
         $this->setPageTitle('Create field group');
         $this->breadcrumbs->addLink('Create field group');
 
@@ -174,8 +172,6 @@ class CustomFieldController extends BaseAdminController
 
     public function getEdit($id)
     {
-        $this->middleware('has-permission:edit-field-groups');
-
         $item = $this->repository->find($id);
 
         if (!$item) {
@@ -186,12 +182,10 @@ class CustomFieldController extends BaseAdminController
             return redirect()->to(route('admin::custom-fields.field-group.edit.get'));
         }
 
-        $this->setPageTitle('Edit field group', '#' . $id . ' ' . $item->name);
+        $this->setPageTitle('Edit field group', '#' . $id . ' ' . str_limit($item->name, 70));
         $this->breadcrumbs->addLink('Edit field group');
 
         $this->dis['object'] = $item;
-
-        $this->dis['currentId'] = $id;
 
         $this->dis['customFieldItems'] = json_encode($this->repository->getFieldGroupItems($id));
 

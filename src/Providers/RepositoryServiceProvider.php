@@ -36,18 +36,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FieldGroupContract::class, function () {
             $repository = new FieldGroupRepository(new FieldGroup);
 
-            if (config('webed-caching.repository.enabled')) {
-                return new FieldGroupRepositoryCacheDecorator($repository);
-            }
-
             return $repository;
         });
         $this->app->bind(FieldItemContract::class, function () {
             $repository = new FieldItemRepository(new FieldItem);
-
-            if (config('webed-caching.repository.enabled')) {
-                return new FieldItemRepositoryCacheDecorator($repository);
-            }
 
             return $repository;
         });
